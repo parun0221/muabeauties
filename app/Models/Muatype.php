@@ -12,9 +12,14 @@ class Muatype extends Model
     /** @use HasFactory<\Database\Factories\MuatypeFactory> */
     use HasFactory, Notifiable, HasApiTokens;
     protected $guarded=[];
-    public function admins()
+    public function admin()
     {
-        return $this->belongsToMany(Admins::class, 'admin_mua_type', 'muatype_id', 'admin_id');
+        return $this->belongsToMany(Admins::class, 'admin_mua_types', 'muatype_id', 'admin_id');
+    }
+
+    public function galerymua()
+    {
+        return $this->hasMany(GaleryMua::class, 'admin_mua_type_id');
     }
     
 

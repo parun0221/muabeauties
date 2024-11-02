@@ -26,7 +26,7 @@
             </a>
         </li>
         <li>
-            <a href="#">
+            <a href="/message">
                 <i class='bx bxs-message-dots'></i>
                 <span class="text">Message</span>
             </a>

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admin_mua_type', function (Blueprint $table) {
+        Schema::create('admin_mua_types', function (Blueprint $table) {
             $table->id();
             $table->foreignId('admin_id')->constrained()->onDelete('cascade');
             $table->foreignId('muatype_id')->constrained()->onDelete('cascade');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admin_mua_type');
+        Schema::dropIfExists('admin_mua_types');
     }
 };

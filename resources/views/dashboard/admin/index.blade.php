@@ -104,6 +104,9 @@
                                         Tidak ada spesialisasi
                                     @endif
                                 </p>
+                                <a href="/galery" class="btn btn-primary mb-3">Tambah Galery</a>
+                                <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#messageForm" data-receiver-id="{{ $admins->user->id }}">Kirim Pesan</a>
+
                             </div>
                         </div>
                     </td>
@@ -147,8 +150,49 @@
             }
         });
     });
+
+    
+    document.querySelectorAll('[data-receiver-id]').forEach(button => {
+    button.addEventListener('click', function () {
+        const receiverId = this.getAttribute('data-receiver-id');
+        document.getElementById('receiverId').value = receiverId; // Masukkan ID penerima ke input hidden
+    });
+});
+
+
+
     
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('#message-form').on('submit', function(event) {
+        event.preventDefault(); // Mencegah reload halaman
+
+        $.ajax({
+            type: 'POST',
+            url: $(this).attr('action'), // Mengambil URL dari action form
+            data: $(this).serialize(), // Mengambil data dari form
+            success: function(response) {
+                // Menampilkan pesan baru di chat
+                $('.chat-messages').append(
+                    `<div class="message sent">
+                        <p>${response.message}</p>
+                        <small>${new Date(response.created_at).toLocaleTimeString()}</small>
+                    </div>`
+                );
+                $('textarea[name="message"]').val(''); // Kosongkan textarea
+            },
+            error: function(xhr) {
+                // Menampilkan error jika ada
+                alert('Terjadi kesalahan saat mengirim pesan: ' + xhr.responseJSON.message);
+            }
+        });
+    });
+});
+</script>
+
 
   
 @endsection
@@ -181,5 +225,33 @@
         </div>
     </div>
 </div>
+
+<!-- Modal untuk Kirim Pesan -->
+<div class="modal fade" id="messageForm" tabindex="-1" aria-labelledby="messageFormLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageFormLabel">Kirim Pesan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="message-form" action="{{ route('message.store') }}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <input type="hidden" name="receiver_id" id="receiverId">
+
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Pesan</label>
+                        <textarea name="message" id="message" rows="4" class="form-control" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 

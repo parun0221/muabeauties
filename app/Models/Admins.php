@@ -19,7 +19,12 @@ class Admins extends Model
     }
     public function muatypes()
     {
-        return $this->belongsToMany(MuaType::class, 'admin_mua_type', 'admin_id', 'muatype_id');
+        return $this->belongsToMany(MuaType::class, 'admin_mua_types', 'admin_id', 'muatype_id')->withPivot('id');
+    }
+
+    public function galerymua()
+    {
+        return $this->hasManyThrough(GaleryMua::class, AdminMuaType::class, 'admin_id', 'admin_mua_type_id');
     }
     
 

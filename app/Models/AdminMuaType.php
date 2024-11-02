@@ -15,4 +15,9 @@ class AdminMuaType extends Model
         'admin_id',
         'muatype_id',
     ];
+
+    public function adminmuatypes()
+    {
+        return $this->belongsTo(AdminMuaType::class, 'admin_mua_type_id');
+    }
 }

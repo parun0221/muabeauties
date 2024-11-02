@@ -14,6 +14,7 @@ Route::get('/dashboard', function () {
 Route::middleware(['web'])->group(function () {
     Route::resource('/spesialisasi', \App\Http\Controllers\AdminMuaTypeController::class);
 });
+Route::post('/user/newpassword', [\App\Http\Controllers\UserController::class, 'newpassword'])->name('user.newpassword');
 
 Route::get('/register', [\App\Http\Controllers\RegisterController::class,'index']);
 Route::post('/register', [\App\Http\Controllers\RegisterController::class,'store']);
@@ -23,6 +24,14 @@ Route::get('/logout', [\App\Http\Controllers\LoginController::class,'logout']);
 
 Route::resource('/dashboard-muatype', \App\Http\Controllers\MuatypeController::class);
 
+Route::resource('/message', \App\Http\Controllers\MessageController::class);
+
 Route::resource('/dashboard-admin', \App\Http\Controllers\AdminController::class);
 
+Route::resource('/profile', \App\Http\Controllers\UserController::class);
+
+Route::resource('/galery', \App\Http\Controllers\GaleryMuaController::class);
+
 // Route::resource('/spesialisasi', \App\Http\Controllers\AdminMuaTypeController::class);
+
+// Route::get('/messages/{userId}', [\App\Http\Controllers\MessageController::class, 'getMessages']);

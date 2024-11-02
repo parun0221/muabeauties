@@ -39,14 +39,14 @@ class AdminMuaTypeController extends Controller
     $muatypeId = $request->muatype_id;
 
     // Cek apakah hubungan sudah ada
-    $exists = DB::table('admin_mua_type')
+    $exists = DB::table('admin_mua_types')
                 ->where('admin_id', $adminId)
                 ->where('muatype_id', $muatypeId)
                 ->exists();
 
     if (!$exists) {
         // Jika tidak ada, masukkan data
-        DB::table('admin_mua_type')->insert([
+        DB::table('admin_mua_types')->insert([
             'admin_id' => $adminId,
             'muatype_id' => $muatypeId,
             'created_at' => now(),
