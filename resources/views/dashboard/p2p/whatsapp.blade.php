@@ -8,15 +8,19 @@
         <h3>Chats</h3>
         <ul>
             @foreach($contacts as $contact)
-                <li class="wa-contact-item" data-user-id="{{ $contact->id }}">
-                    <img src="{{$contact->profile_photo ? asset('storage/' . $contact->profile_photo) : asset('/img/no-photo.png') }}" alt="{{ $contact->name }}">
+    <li class="wa-contact-item" data-user-id="{{ $contact->id }}">
+        <img src="{{$contact->profile_photo ? asset('storage/' . $contact->profile_photo) : asset('/img/no-photo.png') }}" alt="{{ $contact->name }}">
 
-                    <div class="wa-contact-info">
-                        <h5>{{ $contact->name }}</h5>
-                        <p>{{ $contact->last_message }}</p>
-                    </div>
-                </li>
-            @endforeach
+        <div class="wa-contact-info">
+            <h5>{{ $contact->name }}</h5>
+            <p>{{ $contact->lastMessage ? $contact->lastMessage->message : 'Tidak ada pesan' }}</p>
+            @if($contact->unreadCount > 0)
+                <span class="badge">{{ $contact->unreadCount }}</span> <!-- Menampilkan jumlah pesan yang belum dibaca -->
+            @endif
+        </div>
+    </li>
+@endforeach
+
         </ul>
     </div>
 
@@ -48,7 +52,7 @@
 
 </div>
 <script>
-    document.querySelectorAll('.contact-item').forEach(item => {
+    document.querySelectorAll('.wa-contact-item').forEach(item => {
     item.addEventListener('click', function() {
         const userId = this.getAttribute('data-user-id');
         
@@ -59,21 +63,21 @@
         fetch(`/message/${userId}`)
             .then(response => response.json())
             .then(data => {
-                const chatMessages = document.querySelector('.chat-messages');
+                const chatMessages = document.querySelector('.wa-chat-messages');
                 chatMessages.innerHTML = ''; // Kosongkan chat box
                 data.messages.forEach(message => {
                     const messageElement = document.createElement('div');
-                    messageElement.className = message.sender_id == {{ Auth::id() }} ? 'message sent' : 'message received';
+                    messageElement.className = message.sender_id == {{ Auth::id() }} ? 'wa-message wa-sent' : 'wa-message wa-received';
                     messageElement.innerHTML = `<p>${message.message}</p><small>${new Date(message.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>`;
                     chatMessages.appendChild(messageElement);
                 });
-                document.querySelector('.chat-header h5').textContent = `Chat dengan ${data.contact.name}`;
-            });
+                document.querySelector('.wa-chat-header h5').textContent = `Chat dengan ${data.contact.name}`;
+            })
+            .catch(error => console.error('Fetch error:', error));
     });
 });
 
 // AJAX SENDING
-
 document.getElementById('message-form').addEventListener('submit', function(e) {
     e.preventDefault(); // Mencegah refresh halaman
     
@@ -94,20 +98,51 @@ document.getElementById('message-form').addEventListener('submit', function(e) {
         throw new Error('Network response was not ok.');
     })
     .then(data => {
-        // Menambahkan pesan baru ke chat box
-        const chatMessages = document.querySelector('.chat-messages');
+        const chatMessages = document.querySelector('.wa-chat-messages');
         const messageElement = document.createElement('div');
-        messageElement.className = 'message sent';
+        messageElement.className = 'wa-message wa-sent';
         messageElement.innerHTML = `<p>${data.message}</p><small>${new Date(data.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</small>`;
         chatMessages.appendChild(messageElement);
         
         // Resetkan textarea setelah mengirim
         this.reset();
+
+        updateContactList();
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
     });
 });
+
+// Fungsi untuk memperbarui daftar kontak
+function updateContactList() {
+    fetch('/contacts')
+        .then(response => response.json())
+        .then(contacts => {
+            console.log('Contacts:', contacts); // Lihat data yang diterima
+            const contactList = document.querySelector('.wa-contact-list ul');
+            contactList.innerHTML = ''; // Kosongkan daftar kontak
+
+            contacts.forEach(contact => {
+                const listItem = document.createElement('li');
+                listItem.className = 'wa-contact-item';
+                listItem.setAttribute('data-user-id', contact.id);
+                
+                listItem.innerHTML = `
+                    <img src="${contact.profile_photo ? '/storage/' + contact.profile_photo : '/img/no-photo.png'}" alt="${contact.name}">
+                    <div class="wa-contact-info">
+                        <h5>${contact.name}</h5>
+                        <p>${contact.lastMessage ? contact.lastMessage.message : 'Tidak ada pesan'}</p>
+                        ${contact.unreadCount > 0 ? `<span class="badge">${contact.unreadCount}</span>` : ''}
+                    </div>
+                `;
+
+                contactList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Error fetching contacts:', error));
+}
+
 
 </script>
 @endsection

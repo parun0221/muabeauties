@@ -71,4 +71,21 @@ class User extends Authenticatable
         return $this->hasMany(Message::class, 'receiver_id');
     }
 
+    public function lastMessage()
+{
+    return $this->hasOne(Message::class)
+                ->where(function ($query) {
+                    $query->where('sender_id', $this->id)
+                          ->orWhere('receiver_id', $this->id);
+                })
+                ->latest('created_at'); // Mengambil pesan terakhir berdasarkan waktu
+}
+
+    // Di dalam model User
+public function unreadMessagesCount()
+{
+    return $this->hasMany(Message::class, 'receiver_id')
+                ->where('is_read', false);
+}
+
 }

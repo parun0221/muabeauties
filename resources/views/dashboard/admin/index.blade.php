@@ -51,7 +51,6 @@
 <div class="table-data">
     <div class="order">
         <div class="head">
-            <a href="/dashboard-muatype/create" class="btn btn-primary mb-3">Tambah MUA Type</a>
             <h3>Recent Orders</h3>
             
             <i class='bx bx-search'></i>
@@ -90,11 +89,11 @@
                     <td colspan="4">
                         <div class="details-row-card">
                             <div class="card-photo">
-                                <img src="/img/babang.jpg" alt="{{ $admins->name }}">
+                                <img src="/img/babang.jpg" alt="{{ $admins->user->name }}">
                             </div>
                             <div class="card-details">
-                                <p><span>Rincian untuk:</span> {{ $admins->name }}</p>
-                                <p><span>Email:</span> {{ $admins->email }}</p>
+                                <p><span>Rincian untuk:</span> {{ $admins->user->name }}</p>
+                                <p><span>Email:</span> {{ $admins->user->email }}</p>
                                 <p class="spesialisasi"><span>Spesialisasi:</span> 
                                     @if($admins->muatypes->isNotEmpty())
                                         @foreach($admins->muatypes as $muatype)
@@ -104,10 +103,13 @@
                                         Tidak ada spesialisasi
                                     @endif
                                 </p>
-                                <a href="/galery" class="btn btn-primary mb-3">Tambah Galery</a>
-                                <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#messageForm" data-receiver-id="{{ $admins->user->id }}">Kirim Pesan</a>
-
-                            </div>
+                                </div>
+                                <div class="card-buttons">
+                                    <a href="/galery/{{$admins->id}}" class="btn btn-primary mb-3">Check my Galery</a>
+                                    <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#messageForm" data-receiver-id="{{ $admins->user->id }}">Kirim Pesan</a>
+                                    <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#bookingForm" data-admin-booking-id="{{ $admins->id }}">booking now</a>
+                                
+                                </div>
                         </div>
                     </td>
                 </tr>
@@ -161,6 +163,9 @@
 
 
 
+
+
+
     
 </script>
 
@@ -191,6 +196,78 @@ $(document).ready(function() {
         });
     });
 });
+
+
+document.getElementById('bookingForm').addEventListener('show.bs.modal', function(event) {
+    const button = event.relatedTarget;
+    const adminbookingId = button.getAttribute('data-admin-booking-id');
+    document.getElementById('adminbookingId').value = adminbookingId;
+
+    fetch(`/get-muatypes/${adminbookingId}`)
+        .then(response => response.json())
+        .then(data => {
+            const muatypeSelect = document.getElementById('bookingmuatype_id');
+            muatypeSelect.innerHTML = '<option value="" disabled selected>Pilih spesialisasi</option>';
+            data.forEach(muatype => {
+                const option = document.createElement('option');
+                option.value = muatype.id;
+                option.textContent = muatype.nama_mua;
+                option.dataset.price = muatype.harga_per_jam;
+                muatypeSelect.appendChild(option);
+            });
+        });
+
+    const calculateTotalPrice = () => {
+        const selectedMuaType = document.getElementById('bookingmuatype_id');
+        const startTime = document.getElementById('start_time').value;
+        const endTime = document.getElementById('end_time').value;
+        const pricePerHour = selectedMuaType.options[selectedMuaType.selectedIndex]?.dataset?.price;
+
+        if (startTime && endTime && pricePerHour) {
+            const start = new Date(`01/01/2000 ${startTime}`);
+            const end = new Date(`01/01/2000 ${endTime}`);
+            const hours = (end - start) / 36e5; // Konversi dari ms ke jam
+
+            if (hours > 0) {
+                // Hitung total harga dan bulatkan ke ribuan terdekat
+                const totalPrice = Math.floor((hours * pricePerHour) / 1000) * 1000;
+                document.getElementById('total_price').value = `${totalPrice.toLocaleString()}`;
+                // hitung depe
+                const depe = totalPrice / 2 ;
+                document.getElementById('depe').value = `${depe.toLocaleString()}`;
+            } else {
+                document.getElementById('total_price').value = 'Jam tidak valid';
+            }
+        }
+
+    };
+
+    document.getElementById('start_time').addEventListener('change', calculateTotalPrice);
+    document.getElementById('end_time').addEventListener('change', calculateTotalPrice);
+    document.getElementById('bookingmuatype_id').addEventListener('change', calculateTotalPrice);
+});
+
+document.getElementById('start_time').addEventListener('change', validateTimeDifference);
+document.getElementById('end_time').addEventListener('change', validateTimeDifference);
+
+function validateTimeDifference() {
+    const startTime = document.getElementById('start_time').value;
+    const endTime = document.getElementById('end_time').value;
+
+    if (startTime && endTime) {
+        const start = new Date(`01/01/2000 ${startTime}`);
+        const end = new Date(`01/01/2000 ${endTime}`);
+        const diffInHours = (end - start) / (1000 * 60 * 60); // Menghitung selisih dalam jam
+
+        if (diffInHours < 1) {
+            alert("Waktu berakhir harus minimal 1 jam setelah waktu mulai.");
+            document.getElementById('end_time').value = ''; // Reset end_time jika tidak valid
+        }
+    }
+}
+
+
+
 </script>
 
 
@@ -253,5 +330,62 @@ $(document).ready(function() {
     </div>
 </div>
 
+<!-- Modal booking -->
 
+<div class="modal fade" id="bookingForm" tabindex="-1" aria-labelledby="bookingFormLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingFormLabel">Lakukan Pemesanan</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="bookingFormContent" method="POST" action="{{ route('order.store') }}">
+                    @csrf
+                    <input type="hidden" name="adminbooking_id" id="adminbookingId">
+                    
+                    <!-- Pilihan Tanggal Booking -->
+                    <div class="mb-3">
+                        <label for="booking_date" class="form-label">Tanggal Booking:</label>
+                        <input type="date" class="form-control" name="booking_date" id="booking_date" required>
+                    </div>
+                    
+                    <!-- Pilihan Jam Mulai dan Jam Berakhir -->
+                    <div class="mb-3">
+                        <label for="start_time" class="form-label">Jam Mulai:</label>
+                        <input type="time" class="form-control" name="start_time" id="start_time" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="end_time" class="form-label">Jam Berakhir:</label>
+                        <input type="time" class="form-control" name="end_time" id="end_time" required>
+                    </div>
+                    
+                    <!-- Pilihan MUA Type -->
+                    <div class="mb-3">
+                        <label for="muatype_id" class="form-label">Pilih MUA Type:</label>
+                        <select class="form-select" name="muatype_id" id="bookingmuatype_id" required>
+                            <option value="" disabled selected>Pilih spesialisasi</option>
+                            @foreach ($muatypes as $muatype)
+                                <option value="{{ $muatype->id }}" data-price="{{ $muatype->harga_per_jam }}">
+                                    {{ $muatype->nama_mua }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
+                    <!-- Tampilan Total Harga -->
+                    <div class="mb-3">
+                        <label for="total_price" class="form-label">Total Harga:</label>
+                        <input type="text" name="total_price" class="form-control" id="total_price" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="depe" class="form-label">DP:</label>
+                        <input type="text" name="depe" class="form-control" id="depe" readonly>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Simpan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

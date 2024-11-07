@@ -51,7 +51,6 @@
 <div class="table-data">
     <div class="order">
         <div class="head">
-            <a href="/dashboard-muatype/create" class="btn btn-primary mb-3">Tambah MUA Type</a>
             <h3>Recent Orders</h3>
             
             <i class='bx bx-search'></i>
@@ -64,7 +63,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(Auth::user()->admin->muatypes as $muatypes)
+                @foreach($admin->muatypes as $muatypes)
                 <tr class="clickable-row" data-admin-id="{{ $muatypes->id }}">
                     <td>
                         {{ $muatypes->nama_mua }}
@@ -81,9 +80,9 @@
                                 <table class="gallery-table">
                                     <thead>
                                         <tr>
-                                            <th style="width: 50%;">Gambar</th>
+                                            <th style="width: 70%;">Gambar</th>
                                             <th style="width: 30%;">Keterangan</th>
-                                            <th style="width: 20%;">Aksi</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -95,13 +94,7 @@
                                             <td class="gallery-description">
                                                 <p><strong>Keterangan:</strong> {{ $galeri->deskripsi }}</p>
                                             </td>
-                                            <td class="gallery-action">
-                                                <form action="" method="POST" style="display: inline;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-delete" onclick="return confirm('Apakah Anda yakin ingin menghapus gambar ini?')">Hapus</button>
-                                                </form>
-                                            </td>
+                                            
                                         </tr>
                                         @endforeach
                                     </tbody>

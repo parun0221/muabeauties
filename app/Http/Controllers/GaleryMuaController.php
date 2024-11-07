@@ -63,7 +63,9 @@ class GaleryMuaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $admin = Admins::with('user')->findOrFail($id);
+        
+        return view('dashboard.admin.galery', compact('admin'));
     }
 
     /**

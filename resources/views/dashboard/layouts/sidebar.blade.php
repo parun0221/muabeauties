@@ -1,7 +1,7 @@
 <section id="sidebar">
     <a href="#" class="brand dropdown-bar-toggle" id="">
         <i class='bx bxs-smile'></i>
-        <span class="text">AdminHub</span>
+        <span class="text">Beauties</span>
 </a>
 
 
@@ -25,22 +25,22 @@
                 <span class="text">MUA Type</span>
             </a>
         </li>
-        <li>
+        <li class="{{ request()->is('message*') ? 'active' : '' }}">
             <a href="/message">
                 <i class='bx bxs-message-dots'></i>
                 <span class="text">Message</span>
             </a>
         </li>
-        <li>
-            <a href="#">
+        <li class="{{ request()->is('order*') ? 'active' : '' }}">
+            <a href="/order">
                 <i class='bx bxs-group'></i>
-                <span class="text">Team</span>
+                <span class="text">CHART</span>
             </a>
         </li>
     </ul>
     <ul class="side-menu">
-        <li>
-            <a href="#">
+        <li class="{{ request()->is('profile') ? 'active' : '' }}">
+            <a href="/profile">
                 <i class='bx bxs-cog'></i>
                 <span class="text">Settings</span>
             </a>

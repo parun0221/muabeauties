@@ -65,4 +65,16 @@ class AdminController extends Controller
     {
         //
     }
+
+    public function getMuatypesByAdmin($adminbookingId)
+{
+    $admin = Admins::with('muatypes')->find($adminbookingId);
+
+    if ($admin) {
+        return response()->json($admin->muatypes);
+    }
+
+    return response()->json([], 404);
+}
+
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Models\AdminMuaType;
 use Illuminate\Support\Facades\Route;
 
@@ -32,6 +33,9 @@ Route::resource('/profile', \App\Http\Controllers\UserController::class);
 
 Route::resource('/galery', \App\Http\Controllers\GaleryMuaController::class);
 
+Route::resource('/order', \App\Http\Controllers\OrderController::class);
+
 // Route::resource('/spesialisasi', \App\Http\Controllers\AdminMuaTypeController::class);
 
-// Route::get('/messages/{userId}', [\App\Http\Controllers\MessageController::class, 'getMessages']);
+Route::get('/contacts', [\App\Http\Controllers\MessageController::class, 'getContacts']);
+Route::get('/get-muatypes/{adminbookingId}', [AdminController::class, 'getMuatypesByAdmin']);

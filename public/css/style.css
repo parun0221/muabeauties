@@ -721,50 +721,74 @@ body {
 	position: fixed;
 }
 
-/* CARD NAME */
-.details-row-card {
-    background-color: white;
+/* CARD NAME */.details-row-card {
+    background-color: #f9f9f9;
     padding: 20px;
     margin-top: 10px;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    display: flex;
-    align-items: center; /* Foto dan detail admin sejajar horizontal */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    border-left: 4px solid #007bff; /* Aksen border kiri */
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Kolom untuk foto, detail, dan tombol */
+    align-items: center;
 }
 
 .card-photo img {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%; /* Foto berbentuk lingkaran */
-    object-fit: cover; /* Menjaga aspek rasio foto */
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
     margin-right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: grid;
+    grid-template-rows: repeat(3, auto);
+    row-gap: 8px;
 }
 
 .card-details p {
-    margin: 5px 0;
-    font-size: 14px;
+    margin: 0;
+    font-size: 15px;
 }
 
 .card-details p span {
     font-weight: bold;
+    color: #333;
 }
 
-.card-details p.spesialisasi {
-    color: #007bff;
+.card-buttons a {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.card-buttons a:hover {
+    background-color: #0056b3;
 }
 
 
 .details-row.active {
     max-height: calc(100vh - 100px); /* Atau sesuaikan dengan perkiraan tinggi yang lebih besar */
     opacity: 1;
+}
+
+
+.card-actions {
+    display: flex;
+    flex-direction: column;
+     /* Jarak antar tombol */
+}
+
+.card-actions a.btn {
+    width: 100%; /* Mengisi lebar penuh */
+    text-align: center; /* Mengatur teks di tengah */
 }
 
 
@@ -1135,3 +1159,11 @@ body {
 .wa-form button:hover {
     background-color: #0056b3; /* Color on hover */
 }
+.badge {
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin-left: 10px;
+}
+
