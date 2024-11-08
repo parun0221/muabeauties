@@ -4,7 +4,7 @@
 
 @section('content')
 <h1> WELCOME {{ Auth::user()->name }} You Are {{ Auth::user()->role }} </h1>
-<div class="head-title">
+{{-- <div class="head-title">
     <div class="left">
         <h1>Dashboard</h1>
         <ul class="breadcrumb">
@@ -84,4 +84,5 @@
         </table>
     </div>
 </div>
-@endsection
+--}}
+@endsection 

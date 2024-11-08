@@ -94,7 +94,9 @@ class MuatypeController extends Controller
      */
     public function destroy(string $id)
     {
-        Muatype::destroy($id);
-        return redirect('/dashboard-muatype')->with('pesan','data berhasil di hapus');
+        $muatype = Muatype::findOrFail($id);
+        $muatype->delete();
+    
+        return response()->json(['success' => true]);
     }
 }

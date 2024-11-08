@@ -24,7 +24,7 @@
     </a>
 </div>
 
-<ul class="box-info">
+{{-- <ul class="box-info">
     <li>
         <i class='bx bxs-calendar-check'></i>
         <span class="text">
@@ -46,7 +46,7 @@
             <p>Total Sales</p>
         </span>
     </li>
-</ul>
+</ul> --}}
 
 <div class="table-data">
     <div class="order">
@@ -72,7 +72,7 @@
                 <tr>
                         <td>{{ $muatype->nama_mua }}</td>
                         <td>{{ $muatype->deskripsi }}</td>
-                        <td>Harga per Jam: {{ $muatype->harga_per_jam }}</td>
+                        <td>Rp. {{ $muatype->harga_per_jam }}</td>
 
     <!-- Menampilkan gambar -->
                         <td>
@@ -87,9 +87,39 @@
                             </a>
                         
                             <!-- Link Hapus -->
-                            <a href="/dashboard-muatype/{{ $muatype->id }}/delete" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus?')">
+                            
+                            
+                            <a href="javascript:void(0)" class="btn btn-danger btn-sm" onclick="deleteMuatype({{ $muatype->id }})">
                                 Hapus
                             </a>
+                            
+                            <script>
+                                function deleteMuatype(id) {
+                                if (confirm('Apakah anda yakin ingin menghapus?')) {
+                                    fetch(`/dashboard-muatype/${id}`, {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                        }
+                                    })
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log('Response data:', data); // Tambahkan log untuk memastikan respons benar
+                                        if (data.success) {
+                                            alert('Data berhasil dihapus');
+                                            location.reload(); // Memuat ulang halaman setelah berhasil menghapus
+                                        } else {
+                                            alert('Gagal menghapus data');
+                                        }
+                                    })
+                                    .catch(error => console.error('Error:', error));
+                                }
+                            }
+
+                            </script>
+                            
+                            
+                            
                         </td>
                 </tr>
                 @endforeach

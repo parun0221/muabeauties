@@ -39,3 +39,6 @@ Route::resource('/order', \App\Http\Controllers\OrderController::class);
 
 Route::get('/contacts', [\App\Http\Controllers\MessageController::class, 'getContacts']);
 Route::get('/get-muatypes/{adminbookingId}', [AdminController::class, 'getMuatypesByAdmin']);
+
+
+Route::delete('/dashboard-muatype/{muatype}', [\App\Http\Controllers\MuatypeController::class, 'destroy'])->name('muatype.destroy');

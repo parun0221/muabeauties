@@ -23,7 +23,7 @@
         <span class="text">Download PDF</span>
     </a>
 </div>
-
+{{-- 
 <ul class="box-info">
     <li>
         <i class='bx bxs-calendar-check'></i>
@@ -46,7 +46,7 @@
             <p>Total Sales</p>
         </span>
     </li>
-</ul>
+</ul> --}}
 <div class="table-data">
     <div class="order">
         <div class="head d-flex justify-content-between align-items-center mb-4">
