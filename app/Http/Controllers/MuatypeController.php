@@ -62,7 +62,7 @@ class MuatypeController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        
     }
 
     /**
@@ -70,7 +70,23 @@ class MuatypeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'nama_mua' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'harga_per_jam' => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Validasi gambar
+        ]);
+
+        // Proses upload gambar
+        if ($request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('muatype_images', 'public');
+            $validated['gambar'] = $path; // Simpan path gambar ke dalam array $validated
+        }
+
+        // Simpan data muatype
+        Muatype::where('id', $id)->update($validated);
+
+        return redirect('/dashboard-muatype')->with('pesan','data berhasil di simpan');
     }
 
     /**
@@ -78,6 +94,7 @@ class MuatypeController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Muatype::destroy($id);
+        return redirect('/dashboard-muatype')->with('pesan','data berhasil di hapus');
     }
 }

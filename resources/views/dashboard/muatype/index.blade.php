@@ -63,6 +63,7 @@
                     <th>Deskripsi</th>
                     <th>Harga/jam</th>
                     <th>Image</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -79,6 +80,17 @@
                         <img src="{{ asset('storage/' . $muatype->gambar) }}" alt="{{ $muatype->nama_mua }}" width="2000">
                     @endif
                         </td>
+                        <td>
+                            <!-- Link Edit -->
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateMuatypeForm" data-admin-id="{{ $muatype->id }}">
+                                Edit
+                            </a>
+                        
+                            <!-- Link Hapus -->
+                            <a href="/dashboard-muatype/{{ $muatype->id }}/delete" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin ingin menghapus?')">
+                                Hapus
+                            </a>
+                        </td>
                 </tr>
                 @endforeach
 
@@ -91,3 +103,48 @@
 
 {{ $muatypes->links() }}
 @endsection
+
+<div class="modal fade" id="updateMuatypeForm" tabindex="-1" aria-labelledby="updateMuatypeFormLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateMuatypeFormLabel">Update MUA Type</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateMuatypeFormContent" method="POST" action="/dashboard-muatype/{{ $muatype->id }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="mb-3">
+                        <label for="nama_mua" class="form-label">Nama MUA</label>
+                        <input type="text" class="form-control" name="nama_mua" id="nama_mua" value="{{ $muatype->nama_mua }}" required maxlength="255">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="deskripsi" class="form-label">Deskripsi</label>
+                        <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3">{{ $muatype->deskripsi }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="harga_per_jam" class="form-label">Harga per Jam</label>
+                        <input type="number" class="form-control" name="harga_per_jam" id="harga_per_jam" value="{{ $muatype->harga_per_jam }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="gambar" class="form-label">Upload Gambar</label>
+                        <input type="file" class="form-control" name="gambar" id="gambar" accept="image/*">
+                        @if($muatype->gambar)
+                            <div class="mt-2">
+                                <img src="{{ asset('storage/' . $muatype->gambar) }}" alt="Gambar saat ini" class="img-thumbnail" width="100">
+                            </div>
+                        @endif
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
