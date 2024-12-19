@@ -26,6 +26,15 @@ class Admins extends Model
     {
         return $this->hasManyThrough(GaleryMua::class, AdminMuaType::class, 'admin_id', 'admin_mua_type_id');
     }
+    public function ratingmua()
+    {
+        return $this->hasMany(AdminRating::class, 'admin_id'); // Pastikan 'admin_id' sesuai dengan foreign key yang ada di tabel adminrating
+    }
+
+    public function order()
+    {
+        return $this->hasMany(Order::class, 'admin_id');
+    }
     
 
 }

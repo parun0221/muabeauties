@@ -2,21 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customers;
+use App\Models\AdminRating;
 use Illuminate\Http\Request;
 
-class CustomerController extends Controller
+class SuperRatingController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        $customers = Customers::with('user')->get();
+    public function index(Request $request)
+{
+    $query = AdminRating::query();
 
-        // Return ke view dengan data
-        return view('dashboard.super.index', compact('customers'));
+    // Filter berdasarkan pencarian nama customer atau admin
+    if ($request->has('search') && $request->search) {
+        $query->whereHas('customer.user', function ($q) use ($request) {
+            $q->where('review', 'like', '%' . $request->search . '%');
+        })
+        ->orWhereHas('admin.user', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->search . '%');
+        });
     }
+
+    // Filter berdasarkan rating
+    if ($request->has('rating') && $request->rating) {
+        $query->where('rating', $request->rating);
+    }
+
+    // Ambil data rating sesuai filter
+    $ratings = $query->get();
+
+    return view('dashboard.super.ulasan', compact('ratings'));
+}
+
 
     /**
      * Show the form for creating a new resource.

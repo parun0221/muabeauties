@@ -29,7 +29,7 @@
     <label for="switch-mode" class="switch-mode"></label>
 
     <!-- Notifications -->
-    <a href="#" class="notification">
+    <a href="/rating" class="notification">
         <i class='bx bxs-bell'></i>
         <span class="num">8</span>
     </a>

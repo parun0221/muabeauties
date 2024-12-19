@@ -38,4 +38,9 @@ class Order extends Model
     {
         return $this->belongsTo(Muatype::class, 'muatype_id');
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

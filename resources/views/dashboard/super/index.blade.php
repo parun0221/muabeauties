@@ -20,7 +20,7 @@
     </div>
     <a href="#" class="btn-download">
         <i class='bx bxs-cloud-download'></i>
-        <span class="text">Tambah Artist</span>
+        <span class="text">Download PDF</span>
     </a>
 </div>
 {{-- 
@@ -61,70 +61,54 @@
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Spesialisasi</th>
+                    <th>No.Tlp</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($admin as $admins)
-                <tr class="clickable-row" data-admin-id="{{ $admins->id }}">
-                    <td>{{ $admins->user->name }}</td>
-                    <td>{{ $admins->user->email }}</td>
+                @foreach($customers as $customer)
+                <tr class="clickable-row" data-customer-id="{{ $customer->id }}">
+                    <td>{{ $customer->user->name }}</td>
+                    <td>{{ $customer->user->email }}</td>
+                    <td>082264495901</td>
                     <td>
-                        @if($admins->muatypes->isNotEmpty())
-                            @foreach($admins->muatypes as $muatype)
-                                {{ $muatype->nama_mua }}@if(!$loop->last), @endif
-                            @endforeach
-                        @else
-                            Tidak ada spesialisasi
-                        @endif
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#spesialisasiForm" data-admin-id="{{ $admins->id }}">
-                            Tambah Spesialisasi
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#spesialisasiForm" data-customer-id="{{ $customer->id }}">
+                            blokir
                         </button>
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jadwalForm" data-admin-id="{{ $admins->id }}">
-                            Jadwal
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#jadwalForm" data-customer-id="{{ $customer->id }}">
+                            reset password
                         </button>
-                        <a href="/dashboard-admin/{{$admins->id}}" class="btn btn-primary">
-                            Ulasan
-                        </a>
+                        
                         
                         
                     </td>
                 </tr>
-                <tr class="details-row" id="details-{{ $admins->id }}" style="display: none;">
+                <tr class="details-row" id="details-{{ $customer->id }}" style="display: none;">
                     <td colspan="4">
                         <div class="details-row-card">
                             <div class="card-photo">
-                                <img src="/img/babang.jpg" alt="{{ $admins->user->name }}">
+                                <img src="/img/babang.jpg" alt="{{ $customer->user->name }}">
                             </div>
                             <div class="card-details">
-                                <p><span>Rincian untuk:</span> {{ $admins->user->name }}</p>
-                                <p><span>Email:</span> {{ $admins->user->email }}</p>
-                                <p class="spesialisasi"><span>Spesialisasi:</span> 
-                                    @if($admins->muatypes->isNotEmpty())
-                                        @foreach($admins->muatypes as $muatype)
-                                            {{ $muatype->nama_mua }}@if(!$loop->last), @endif
-                                        @endforeach
-                                    @else
-                                        Tidak ada spesialisasi
-                                    @endif
+                                <p><span>Rincian untuk:</span> {{ $customer->user->name }}</p>
+                                <p><span>Email:</span> {{ $customer->user->email }}</p>
+                                <p class="spesialisasi"><span>Telephone:</span> 
+                                    082264495901
                                 </p>
-                                <p><span>Rata-rata Rating:</span> 
+                                {{-- <p><span>Rata-rata Rating:</span> 
                                     @if($admins->average_rating)
                                         {{ number_format($admins->average_rating, 1) }} / 5
                                     @else
                                         Belum ada rating
                                     @endif
-                                </p>
+                                </p> --}}
                                 </div>
-                                <div class="card-buttons">
+                                {{-- <div class="card-buttons">
                                     <a href="/galery/{{$admins->id}}" class="btn btn-primary mb-3">Check my Galery</a>
                                     <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#messageForm" data-receiver-id="{{ $admins->user->id }}">Kirim Pesan</a>
                                     <a href="#" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#bookingForm" data-admin-booking-id="{{ $admins->id }}">booking now</a>
                                 
-                                </div>
+                                </div> --}}
                         </div>
                     </td>
                 </tr>
@@ -139,25 +123,23 @@
     </div>
 </div>
 
-{{ $admin->links() }}
-{{ $muatypes->links() }}
 
 
 <!-- Modal Form for Spesialisasi -->
 
 <script>
     // Event listener untuk menangkap ID admin dan memasukkannya ke dalam form modal
-    document.querySelectorAll('button[data-admin-id]').forEach(button => {
-        button.addEventListener('click', function () {
-            const adminId = this.getAttribute('data-admin-id');
-            document.getElementById('admin_id').value = adminId; // Masukkan ID admin ke input hidden
-        });
-    });
+    // document.querySelectorAll('button[data-customer-id]').forEach(button => {
+    //     button.addEventListener('click', function () {
+    //         const customerId = this.getAttribute('data-customer-id');
+    //         document.getElementById('customer_id').value = customerId; // Masukkan ID admin ke input hidden
+    //     });
+    // });
 
     document.querySelectorAll('.clickable-row').forEach(row => {
         row.addEventListener('click', function () {
-            const adminId = this.getAttribute('data-admin-id');
-            const detailsRow = document.getElementById('details-' + adminId);
+            const customerId = this.getAttribute('data-customer-id');
+            const detailsRow = document.getElementById('details-' + customerId);
 
             // Toggle visibility of the details row
             if (detailsRow.style.display === 'none' || detailsRow.style.display === '') {
@@ -183,7 +165,7 @@
 
     
 </script>
-
+{{-- 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
@@ -354,13 +336,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-</script>
+</script> --}}
 
 
 
   
 @endsection
-
+{{-- 
 <div class="modal fade" id="spesialisasiForm" tabindex="-1" aria-labelledby="spesialisasiFormLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -496,4 +478,4 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 </div>
 
-
+ --}}

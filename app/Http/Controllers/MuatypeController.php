@@ -62,7 +62,8 @@ class MuatypeController extends Controller
      */
     public function edit(string $id)
     {
-        
+        $muatype = Muatype::findOrFail($id);
+    return response()->json($muatype);
     }
 
     /**

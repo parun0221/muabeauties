@@ -49,13 +49,13 @@
 </ul>
 
 <div class="table-data">
-    <div class="order">
+    {{-- <div class="order">
         <div class="head">
             <h3>Recent Orders</h3>
             <a href="/dashboard-muatype/create" class="btn btn-primary mb-3">Tambah MUA Type</a>
             <i class='bx bx-search'></i>
             <i class='bx bx-filter'></i>
-        </div>
+        </div> --}}
         <div class="containerprofile">
             <div class="profile-sidebar">
                 <img src="{{ Auth::user()->profile_photo ? asset('storage/' . Auth::user()->profile_photo) : asset('/img/no-photo.png') }}" alt="Profile Picture" class="profile-pic">
@@ -100,7 +100,7 @@
                 
             </div>
         </div>
-    </div>
+    {{-- </div> --}}
 </div>
 
 {{ $muatypes->links() }}

@@ -1166,4 +1166,719 @@ body {
     padding: 5px 10px;
     margin-left: 10px;
 }
+/* RATING */ 
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 2em;
+    color: #d3d3d3;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #ffcc00;
+}
+
+.hidden {
+    display: none;
+}
+
+.visible {
+    display: block;
+}
+
+
+
+
+/* Style untuk formulir */
+form.sortirrating {
+    background-color: #fdf3f0; /* Warna pastel lembut */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 20px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Label */
+form.sortirrating label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #d2787b; /* Warna pink pastel */
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Dropdown */
+form.sortirrating select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #f1bfc4; /* Border warna pastel */
+    border-radius: 8px;
+    background-color: #fff;
+    color: #555;
+    font-size: 14px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+form.sortirrating select:focus {
+    border-color: #d2787b; /* Warna fokus */
+    outline: none;
+}
+
+/* Tombol submit */
+form.sortirrating button {
+    background-color: #d2787b; /* Warna pink pastel */
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+form.sortirrating button:hover {
+    background-color: #c0646e; /* Warna pink yang lebih gelap */
+    transform: translateY(-2px);
+}
+
+/* Hover dan fokus untuk dropdown */
+form.sortirrating select:hover {
+    border-color: #c0646e;
+}
+
+form.sortirrating select:focus {
+    box-shadow: 0 0 4px rgba(210, 120, 123, 0.5);
+}
+
+/* Tampilan form saat disorot */
+form.sortirrating:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* STATUS BUTTON */
+
+/* Container untuk tombol status */
+#statusButtons {
+    display: flex;
+    justify-content: center; /* Posisikan di tengah secara horizontal */
+    gap: 15px; /* Jarak antara tombol */
+    margin: 20px 0;
+}
+
+/* Tombol */
+#statusButtons button {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Tombol MUA (Make Up Artis) */
+#statusButtons .btn-warning {
+    background-color: #f8c4c4; /* Pink pastel */
+    color: #fff;
+    border: 2px solid #f1a1a1;
+}
+
+#statusButtons .btn-warning:hover {
+    background-color: #e69b9b; /* Pink pastel lebih gelap */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+/* Tombol MUA Type */
+#statusButtons .btn-primary {
+    background-color: #a8d0e6; /* Biru pastel */
+    color: #fff;
+    border: 2px solid #91c3db;
+}
+
+#statusButtons .btn-primary:hover {
+    background-color: #80b5d1; /* Biru pastel lebih gelap */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px);
+}
+
+/* Efek fokus */
+#statusButtons button:focus {
+    outline: none;
+    box-shadow: 0 0 6px rgba(200, 150, 150, 0.5);
+}
+
+/* Responsif untuk tampilan kecil */
+@media (max-width: 768px) {
+    #statusButtons {
+        flex-direction: column; /* Tombol ditumpuk secara vertikal */
+        align-items: center;
+        gap: 10px;
+    }
+
+    #statusButtons button {
+        width: 80%; /* Tombol lebih lebar pada layar kecil */
+    }
+}
+
+
+/* admin rating */
+/* Container */
+.admin-reviews-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Title */
+.reviews-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Review List */
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Review Card */
+.review-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e3e3e3;
+}
+
+/* Review Header */
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.review-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 2px solid #d4af37; /* Gold outline for MUA theme */
+}
+
+.review-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-user-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.review-date {
+    font-size: 14px;
+    color: #777;
+}
+
+/* Review Body */
+.review-body {
+    margin-top: 10px;
+}
+
+.review-stars {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.star {
+    width: 20px;
+    height: 20px;
+    background: url('/img/starempty.png') no-repeat center;
+    background-size: contain;
+    margin-right: 5px;
+}
+
+.star.filled {
+    background-image: url('/img/starfilled.png');
+}
+
+.review-comment {
+    font-size: 16px;
+    font-style: italic;
+    color: #555;
+    text-align: justify;
+}
+
+/* No Reviews */
+.no-reviews {
+    text-align: center;
+    font-size: 16px;
+    color: #888;
+    font-style: italic;
+}
+
+
+/* SUPER ADMIN */
+
+.superad-info-mua {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 30px;
+    list-style: none;
+    padding: 0;
+}
+
+.superad-info-mua li {
+    background: linear-gradient(135deg, #f7f1f9, #ffe8f1);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: calc(33.333% - 20px); /* Tiga item per baris */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.superad-info-mua li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.superad-info-mua li i {
+    font-size: 2rem;
+    color: #d63384; /* Warna pink elegan */
+    margin-right: 15px;
+}
+
+.superad-text-mua h3 {
+    font-size: 1.2rem;
+    color: #333;
+    font-family: 'Playfair Display', serif;
+    margin: 0 0 5px;
+}
+
+.superad-text-mua p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #555;
+    font-family: 'Roboto', sans-serif;
+}
+
+.superad-text-mua p a {
+    text-decoration: none;
+    color: #d63384;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.superad-text-mua p a:hover {
+    color: #a02662;
+}
+
+.chart-container {
+    margin-top: 40px; /* Jarak atas dengan fitur sebelumnya */
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto; /* Pusatkan grafik */
+}
+
+
+/* REPORT  */
+
+/* Umum */
+body {
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f9f9fb;
+    color: #444;
+}
+
+.reportsuper-main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Statistik */
+.reportsuper-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.reportsuper-stat-card {
+    flex: 1;
+    margin: 0 10px;
+    background: #ffe6f2;
+    border: 1px solid #ffb3d9;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: #d63384;
+}
+
+.reportsuper-stat-card h3 {
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.reportsuper-stat-card p {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* MUA Terpopuler */
+.reportsuper-popular-mua h2,
+.reportsuper-reviews h2 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #d63384;
+}
+
+.reportsuper-popular-card {
+    text-align: center;
+    padding: 20px;
+    background: #fff4e6;
+    border: 1px solid #ffcc99;
+    border-radius: 8px;
+}
+
+.reportsuper-popular-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.reportsuper-popular-card h3 {
+    color: #d63384;
+    margin-bottom: 5px;
+}
+
+/* Review Terbanyak */
+.reportsuper-review-card {
+    text-align: center;
+    padding: 20px;
+    background: #e6f9ff;
+    border: 1px solid #99d6ff;
+    border-radius: 8px;
+}
+
+.reportsuper-review-card i {
+    font-size: 40px;
+    color: #007acc;
+    margin-bottom: 10px;
+}
+
+.reportsuper-chart {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.reportsuper-chart h2 {
+    font-family: 'ElMessiri', sans-serif;
+    font-size: 24px;
+    margin-bottom: 15px;
+    color: #ff6f61;
+}
+
+#earningsChart {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.chartjs-render-monitor {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+
+/* SUPER ULASAN */
+
+/* Container untuk seluruh ulasan */
+.admin-reviews-container {
+    width: 70%; 
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.reviews-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Review Card Styling */
+.review-card {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Bagian Header dengan foto customer dan admin */
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.review-avatar-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.review-info {
+    font-size: 14px;
+    color: #333;
+}
+
+.customer {
+    justify-content: flex-start;
+}
+
+.admin {
+    justify-content: flex-end;
+}
+
+/* Review Body */
+.review-body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.review-stars {
+    display: flex;
+    gap: 5px;
+}
+
+.star {
+    color: #ccc;
+}
+
+.star.filled {
+    color: gold;
+}
+
+.review-comment {
+    font-style: italic;
+    color: #555;
+    margin: 0;
+}
+
+/* Action button untuk Sensor Review */
+.review-action {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.btn-sensor {
+    background-color: #ff0000;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-sensor:hover {
+    background-color: #e60000;
+}
+
+/* Filter Review Section */
+.filter-review-container {
+    margin: 20px 0;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.filter-review-container input,
+.filter-review-container select {
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+
+/* SALARY */
+
+/* .salarymua class untuk mengatur tema umum */
+.salarymua {
+    background-color: #f8f9fa; /* Warna latar belakang terang */
+    color: #495057; /* Warna teks gelap */
+    font-family: 'Poppins', sans-serif; /* Font Poppins */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Judul H2 dan H4 dengan warna utama */
+.salarymua h2, .salarymua h4 {
+    font-weight: bold;
+    color: #17a2b8; /* Warna biru muda */
+}
+
+/* Untuk card container dengan border dan shadow */
+.salarymua .card {
+    border: 1px solid #ddd; /* Warna border abu-abu terang */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+/* Styling untuk Pie Chart Container */
+.reportsalary-chart {
+    width: 33%; /* Membuat chart 1/3 layar */
+    margin: 0 auto; /* Tengah-tengah */
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#salaryChart {
+    width: 100%; /* Mengisi lebar container */
+    height: 300px; /* Menentukan tinggi chart */
+}
+
+/* Styling untuk tabel laporan gaji */
+.salarymua table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.salarymua table th, .salarymua table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.salarymua table th {
+    background-color: #17a2b8;
+    color: white;
+    font-weight: bold;
+}
+
+.salarymua table td {
+    background-color: #f8f9fa;
+}
+
+.salarymua table td strong {
+    color: #17a2b8;
+}
+
+.salarymua .total-earnings {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #28a745; /* Warna hijau untuk total earnings */
+}
+
+.salarymua .filter-section {
+    margin-bottom: 20px;
+}
+
+.salarymua .filter-section select {
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+    background-color: #fff;
+}
+
+.salarymua .filter-section button {
+    padding: 10px 20px;
+    background-color: #17a2b8;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.salarymua .filter-section button:hover {
+    background-color: #138496; /* Efek hover pada button */
+}
+
+/* Styling untuk elemen status */
+.salarymua .status {
+    font-weight: bold;
+    color: #007bff; /* Warna biru untuk status */
+}
+
+.salarymua .status.finished {
+    color: #28a745; /* Green untuk selesai */
+}
+
+.salarymua .status.confirmed {
+    color: #ffc107; /* Yellow untuk dikonfirmasi */
+}
+
+.salarymua .status.pending {
+    color: #ffc107; /* Yellow untuk pending */
+}
+
+.salarymua .status.canceled {
+    color: #dc3545; /* Red untuk dibatalkan */
+}
 

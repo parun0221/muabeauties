@@ -1,6 +1,6 @@
 <section id="sidebar">
     <a href="#" class="brand dropdown-bar-toggle" id="">
-        <i class='bx bxs-smile'></i>
+        <i class='bx bxs-spray-can'></i>
         <span class="text">Beauties</span>
 </a>
 

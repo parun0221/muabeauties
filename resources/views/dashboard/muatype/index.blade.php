@@ -82,7 +82,7 @@
                         </td>
                         <td>
                             <!-- Link Edit -->
-                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateMuatypeForm" data-admin-id="{{ $muatype->id }}">
+                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateMuatypeForm" data-muatype-id="{{ $muatype->id }}">
                                 Edit
                             </a>
                         
@@ -132,6 +132,46 @@
 </div>
 
 {{ $muatypes->links() }}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Event listener saat modal ditampilkan
+        const updateModal = document.getElementById('updateMuatypeForm');
+        updateModal.addEventListener('show.bs.modal', function (event) {
+            // Tombol yang memicu modal
+            const button = event.relatedTarget;
+
+            // Ambil ID dari atribut data pada tombol
+            const muatypeId = button.getAttribute('data-muatype-id');
+
+            // Update form action URL di modal
+            const form = updateModal.querySelector('form');
+            form.action = `/dashboard-muatype/${muatypeId}`;
+
+            // Lakukan fetch data dari server atau ambil data secara lokal
+            fetch(`/dashboard-muatype/${muatypeId}/edit`)
+                .then(response => response.json())
+                .then(data => {
+                    // Isi nilai form dengan data yang diterima
+                    document.getElementById('modal-nama_mua').value = data.nama_mua;
+                    document.getElementById('modal-deskripsi').value = data.deskripsi;
+                    document.getElementById('modal-harga_per_jam').value = data.harga_per_jam;
+
+                    // Perbarui gambar jika ada
+                    const gambarPreview = document.querySelector('#modal-gambar-preview');
+                    if (data.gambar) {
+                        gambarPreview.src = `/storage/${data.gambar}`;
+                        gambarPreview.style.display = 'block';
+                    } else {
+                        gambarPreview.style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    });
+</script>
+
+
 @endsection
 
 <div class="modal fade" id="updateMuatypeForm" tabindex="-1" aria-labelledby="updateMuatypeFormLabel" aria-hidden="true">
@@ -142,38 +182,41 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+
+                @if(isset($muatype))
                 <form id="updateMuatypeFormContent" method="POST" action="/dashboard-muatype/{{ $muatype->id }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label for="nama_mua" class="form-label">Nama MUA</label>
-                        <input type="text" class="form-control" name="nama_mua" id="nama_mua" value="{{ $muatype->nama_mua }}" required maxlength="255">
+                        <label for="modal-nama_mua" class="form-label">Nama MUA</label>
+                        <input type="text" class="form-control" name="nama_mua" id="modal-nama_mua" required maxlength="255">
                     </div>
-
                     <div class="mb-3">
-                        <label for="deskripsi" class="form-label">Deskripsi</label>
-                        <textarea class="form-control" name="deskripsi" id="deskripsi" rows="3">{{ $muatype->deskripsi }}</textarea>
+                        <label for="modal-deskripsi" class="form-label">Deskripsi</label>
+                        <textarea class="form-control" name="deskripsi" id="modal-deskripsi" rows="3"></textarea>
                     </div>
-
                     <div class="mb-3">
-                        <label for="harga_per_jam" class="form-label">Harga per Jam</label>
-                        <input type="number" class="form-control" name="harga_per_jam" id="harga_per_jam" value="{{ $muatype->harga_per_jam }}" required>
+                        <label for="modal-harga_per_jam" class="form-label">Harga per Jam</label>
+                        <input type="number" class="form-control" name="harga_per_jam" id="modal-harga_per_jam" required>
                     </div>
-
                     <div class="mb-3">
-                        <label for="gambar" class="form-label">Upload Gambar</label>
-                        <input type="file" class="form-control" name="gambar" id="gambar" accept="image/*">
-                        @if($muatype->gambar)
-                            <div class="mt-2">
-                                <img src="{{ asset('storage/' . $muatype->gambar) }}" alt="Gambar saat ini" class="img-thumbnail" width="100">
-                            </div>
-                        @endif
+                        <label for="modal-gambar" class="form-label">Upload Gambar</label>
+                        <input type="file" class="form-control" name="gambar" id="modal-gambar" accept="image/*">
+                        <div class="mt-2">
+                            <img id="modal-gambar-preview" class="img-thumbnail" width="100" style="display:none;">
+                        </div>
                     </div>
+                    
 
                     <button type="submit" class="btn btn-primary w-100">Simpan Perubahan</button>
                     
                 </form>
+                @else
+                        console.error("Order data is not available.");
+                @endif
+
+                
             </div>
         </div>
     </div>
